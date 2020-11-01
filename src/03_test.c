@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 int total_num = 20;
+int sort_num[20];
 
 // ターミナルにソートした結果を出力する
 void show_data(int num[total_num]){
@@ -14,42 +15,43 @@ void show_data(int num[total_num]){
    配列の1番目の要素以上のものを左から，未満のものを右から探す．
    左右で1つずつ見つかった場合，入れ替える．
    左右のキーがぶつかったら処理を左右に分け，その中で探索を継続する．*/
-void quick_sort(int num[total_num], int left, int right){
-  printf("クイックソート\n");
+void quick_sort(int left, int right){
   int tmp;
   int pivot;                        // 探索基準の要素
   int l = left;                     // ソートする配列の一番小さい要素番号
   int r = right;                    // ソートする配列の一番大きい要素番号
 
-  pivot = num[(left + right) / 2]; // 基準値を配列の中央付近にとる
+  pivot = sort_num[(left + right) / 2]; // 基準値を配列の中央付近にとる
 
   while(1){ 
-    // pivotより大きい値が出るまでlを増加させる．
-    // pivotより小さい値が出るまでrを減少させる．                                 
+    /* pivotよりsort_numが大きくなるまでlを増加させる．*/
+    /* pivotよりsort_numが小さくなるまでrを減少させる．*/                                                        
       if (l >= r)               // i>=jなら無限ループから抜ける．
         break;                 
-      tmp = num[l];             // num[i]とnum[j]を交換する．
-      num[l] = num[r];
-      num[r] = tmp;         
+      tmp = sort_num[l];        // num[i]とnum[j]を交換する．
+      sort_num[l] = sort_num[r];
+      /* sort_num[r]にキープしていたtmpを入れる */      
       l++;                    
       r--;
     }
-    show_data(num);              // 途中経過を表示
     if (left < l-1)              // 基準値の左に2以上要素があれば左の配列をソートする．
-      quick_sort(num, left, l-1);     
+      quick_sort(left, l-1);     
     if (r+1 < right)            // 基準値の右に2以上要素があれば右の配列をソートする．
-      quick_sort(num, r+1, right); 
+      quick_sort(r+1, right); 
 }
 
 // 5で割った時余りが出るもの
 void remainder_number(int num[total_num]){
   printf("5で割った時余りが出るものを表示\n");
-  int count=0;
-  int remainder_num[total_num];
-  // for文で回して，条件を満たした場合remainder_numに格納してcountを増やす．
-  total_num = count;
-  show_data(remainder_num);
-  quick_sort(remainder_num, 0, total_num-1); // 配列，一番頭の配列番号，一番最後の配列番号
+  int count=0; // 対象の要素数を数える
+  /* for文で回して，条件を満たした場合sort_numに格納してcountを増やす(if文を書いて下さい)． */
+  for(int array_num=0; array_num<total_num; array_num++){ 
+      sort_num[count] = num[array_num];  // 条件を満たした時,格納してcountを増やす．
+      count++;
+  }
+  /* total_numを上書きする(count)．*/
+  show_data(sort_num);
+  quick_sort(0, total_num-1); // 一番頭の配列番号，一番最後の配列番号
 }
 
 int main(void){
@@ -70,6 +72,8 @@ int main(void){
   fclose(fp);
 
   remainder_number(num);
+  printf("クイックソート\n");
+  show_data(sort_num);
 
   return 0;
 }

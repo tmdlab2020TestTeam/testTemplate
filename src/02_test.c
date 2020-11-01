@@ -16,10 +16,12 @@ void selection_sort(int num[total_num]){
   printf("選択ソート\n");
   int array_num,min,tmp,count=0;
   for(array_num=0; array_num<total_num; array_num++){
-    min = array_num;  // 最小値の配列番号を入れる．
-    // for文で回して，minより小さい値があれば置き換える．
+    min = array_num;                           // 最小値の配列番号を入れる．
+    for(int i=array_num+1; i<total_num; i++){  // for文で回して，minより小さい値があれば置き換える．
+      /* num[i]がnum[min]より小さい時，minの配列番号をiに書き換える */
+    }
     if(min != array_num){
-      tmp = num[array_num];
+      /* tmpにnum[array_num]を格納する */
       num[array_num] = num[min];
       num[min] = tmp;
       count++;
@@ -38,12 +40,13 @@ void not_prime_number(int num[total_num]){
   for(array_num=0; array_num<total_num; array_num++){
     flag = 0;
     for(int i=2; i<num[array_num]; i++){
-      if(num[array_num]%i == 0){
-        flag = 1;
-        break;
-      }
+      /* num[array_num]が割り切れた場合，フラグを立てる． */
+      flag = 1; //if文の中の一部
     }
-    // flagが1の時，not_prime_numに値を追加していく．
+    if(flag==1){                 // flagが1の時，not_prime_num[count]にnum[array_num]を追加していく．
+      not_prime_num[count] = num[array_num];
+      count++;
+    }
   }
   total_num = count;
   show_data(not_prime_num);
